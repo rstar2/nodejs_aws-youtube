@@ -18,6 +18,9 @@ require('handlebars-helpers')({
     handlebars: hbs.handlebars  // Note hbs.handlebars returns the internal Handlebars instance
 });
 
+// load the .env file into process.env
+require('dotenv').config();
+
 /**
  * Factory method
  * @return {Promise<{app:Express, apiRouter:Router, viewRouter: Router}>}
@@ -32,7 +35,6 @@ module.exports = (prefix = '') => {
     app.set('view engine', 'hbs');
 
     app.use('/public', express.static('public'));
-
 
     if (prefix && !prefix.startsWith('/')) {
         prefix = `/${prefix}`;

@@ -10,7 +10,7 @@ const AppList = {
 
         <!-- add custom class "list-item" -->
         <vs-list-item v-for="(item, index) of list" :key="index"
-            vs-icon="check" :vs-title="item" :vs-subtitle="''+index" class="list-item">
+            vs-icon="check" :vs-title="item" class="list-item">
             <vs-button vs-color="danger" vs-icon="save_alt" @click="download(index)">Download</vs-button>
         </vs-list-item>
       </vs-list>

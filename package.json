@@ -12,6 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.258.1",
     "aws-serverless-express": "^3.2.0",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-handlebars-sections": "^1.0.1",

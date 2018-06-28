@@ -28,8 +28,8 @@ provider:
     # stage: ${self:provider.stage}
     
     # TODO: get somehow from the Function's and Bucket's ARN
-    functionTranscode: ${self:service}-${self:provider.stage}-transcode
-    s3Bucket: ${self:service}-${self:provider.stage}
+    AWS_LAMBDA_TRANSCODE: ${self:service}-${self:provider.stage}-transcode
+    AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
 
 package:
   exclude:
