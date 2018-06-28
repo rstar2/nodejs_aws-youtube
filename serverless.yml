@@ -1,0 +1,72 @@
+service: my-youtube-download
+
+plugins:
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  # timeout: 10 # global timeout - optional, in seconds, default is 6
+
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+
+  iamRoleStatements:
+    # all the Lambda Function(s) to access the specific S3 Bucket
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket"
+      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "TranscodedBucket" } ] ]  }
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "TranscodedBucket" }, '/*' ] ]  }
+
+  environment:
+    # service: ${self:service}
+    # stage: ${self:provider.stage}
+    
+    # TODO: get somehow from the Function's and Bucket's ARN
+    functionTranscode: ${self:service}-${self:provider.stage}-transcode
+    s3Bucket: ${self:service}-${self:provider.stage}
+
+package:
+  exclude:
+    - exodus/**
+
+functions:
+  transcode:
+    handler: aws/lambda-transcode.handler
+    timeout: 300 # use all the AWS Maximum execution duration per request limit
+
+    # If no trigger-events are specified that means that the function will be able to be called only from the AWS SKD
+    # events:
+    #   - http:
+    #       path: transcode
+    #       method: GET
+
+  app-express:
+    handler: aws/lambda-express.handler
+    timeout: 300
+    events:
+      # all routes get proxied to the Express router
+      - http: ANY /
+        cors: true
+      - http: 'ANY {proxy+}'
+        cors: true
+
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+          - lambda:InvokeAsync
+        Resource: "*"  
+
+resources:
+  Resources:
+    TranscodedBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-${self:provider.stage}

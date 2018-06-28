@@ -1,0 +1,26 @@
+{
+  "name": "aws-youtube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.258.1",
+    "aws-serverless-express": "^3.2.0",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "express-handlebars-sections": "^1.0.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "request": "^2.87.0",
+    "tempy": "^0.2.1",
+    "ytdl-core": "^0.20.4"
+  },
+  "devDependencies": {
+    "serverless-iam-roles-per-function": "^1.0.1"
+  }
+}
