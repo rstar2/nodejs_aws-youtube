@@ -1,3 +1,5 @@
+const Handlebars = require('handlebars');
+
 module.exports = {
     /**
 	* Usage:
@@ -7,4 +9,13 @@ module.exports = {
     toJSON: function (obj) {
         return JSON.stringify(obj);
     },
+
+    /**
+	* Usage:
+	* {{ toLowerCase 'AsD' }}
+	*/
+    toLowerCase: function (obj) {
+        return new Handlebars.SafeString(obj.toLowerCase());
+    },
+
 };

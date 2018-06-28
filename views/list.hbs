@@ -1,4 +1,10 @@
-<app-list :list-mp4="{{toJSON list}}" :list-mp3="listMP3"></app-list>
+<app-list :list="{{toJSON list}}">
+    <template slot="title">Listing items in {{capitalize type}}</template>
+</app-list>
+
+{{#section 'head_css'}}
+<link href="/public/css/styles.css" rel="stylesheet">
+{{/section}}
 
 {{#section 'body_js'}}
 <script src="/public/js/List.js"></script>
@@ -8,10 +14,8 @@
         el: '#app',
         components: {
             'app-list': AppList
-        },
-        data: {
-            listMP4: ["Video 1", "Video 2"],
-            listMP3: ["Song 1", "Song 2"]
-        },
+        }
     })
-</script> {{/section}}
+</script>
+
+{{/section}}

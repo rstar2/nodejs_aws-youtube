@@ -13,6 +13,11 @@ const hbs = handlebars.create({
 });
 require('express-handlebars-sections')(hbs);
 
+// register a whole lot of useful helpers
+require('handlebars-helpers')({
+    handlebars: hbs.handlebars  // Note hbs.handlebars returns the internal Handlebars instance
+});
+
 /**
  * Factory method
  * @return {Promise<{app:Express, apiRouter:Router, viewRouter: Router}>}

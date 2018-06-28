@@ -32,20 +32,26 @@ See https://github.com/intoli/exodus
 $ pip install --user exodus_bundler
 ```
 
+### Add the exodus executable to the path
+
 For Linux add in '~/.bashrc':
 ```
-export PATH="~/.local/bin/:${PATH}"
+$ export PATH="~/.local/bin/:${PATH}"
 ```
 
-For Windows
+For Windows (the p)
 ```
-PATH=%PATH%;C:\Users\rumen\AppData\Roaming\Python\Python36\Scripts
+$ PATH=%PATH%;%userhome%\AppData\Roaming\Python\Python36\Scripts
 ```
 
-## 4. Bundle FFMPEG with Exodus TODO:
+## 4. Bundle FFMPEG with Exodus
 In order to be able to access FFMPEG from the AWS Lambda container we have to upload the binary somehow
 
-
+## For Linux
+```
+# Create an `ffmpeg` bundle and extract it in the current directory.
+$ exodus --tarball ffmpeg | tar -zx
+```
 
 ## 5. Lambdifying the Express App (e.g run on Lambda with API Gateway)
 1. Install aws-serverless-express
@@ -53,7 +59,7 @@ In order to be able to access FFMPEG from the AWS Lambda container we have to up
 $ npm install aws-serverless-express
 ```
 
-2. Crete new Lambda handler (lambda-express.js)
+2. Create new Lambda handler (lambda-express.js)
 ```
 const awsServerlessExpress = require('aws-serverless-express');
 const app = require('../app');
@@ -76,3 +82,10 @@ functions:
 ```
 
 ## Finally Create a Bookmarklet
+When a bookmark/bookmarklet is clicked while we are for instance in a YouTube page
+then it will be executed in the context of the current page.
+So to execute JavaScript in the same page context just use the "javascript:" prefix:
+TODO:
+```
+javascript:window.open(`https://g9wvw8v13h.execute-api.eu-central-1.amazonaws.com/dev/XXX/${window.location.href}`);
+```

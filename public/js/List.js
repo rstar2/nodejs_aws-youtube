@@ -1,26 +1,28 @@
-let AppList = {
+const AppList = {
     name: 'app-list',
     template: `
       <vs-list>
-        <vs-list-header vs-icon="check" vs-title="List with MP4" vs-color="primary"></vs-list-header>
-        <vs-list-item v-for="(item, index) of listMp4" :key="index"
-            vs-icon="check" :vs-title="item" :vs-subtitle="''+index">
+        <!-- 
+          Use the <template slot="title"/> passed from the parent.
+          Cannot use <slot name="title"/> as we have to pass it to the 'vs-title' prop.
+        -->
+        <vs-list-header :vs-title="$slots.title[0].text" vs-color="primary"/>
+
+        <!-- add custom class "list-item" -->
+        <vs-list-item v-for="(item, index) of list" :key="index"
+            vs-icon="check" :vs-title="item" :vs-subtitle="''+index" class="list-item">
             <vs-button vs-color="danger" vs-icon="save_alt" @click="download(index)">Download</vs-button>
-        </vs-list-item>    
+        </vs-list-item>
       </vs-list>
     `,
-    // HTML attribute names are case-insensitive, so browsers will interpret any uppercase characters
-    // as lowercase. That means when you’re using in-DOM templates
-    // camelCased prop names need to use their kebab-cased (hyphen-delimited) equivalents:
-    // e,g : <app-list :list-mp4="listMP4" :list-mp3="listMP3"></app-list>
-    props: ['listMp4', 'listMp3'],
+    props: ['list'],
     data() {
         return {
         };
     },
     methods: {
-        download(index, isMP3 = false) {
-            console.log('Download', (isMP3 ? this.listMp3 : this.listMp4)[index]);
+        download(index) {
+            console.log('Download', this.list[index]);
         }
     }
 };
