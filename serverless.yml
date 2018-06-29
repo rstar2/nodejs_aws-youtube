@@ -5,6 +5,8 @@ plugins:
 
 provider:
   name: aws
+  profile: serverless-cli
+
   runtime: nodejs8.10
   # timeout: 10 # global timeout - optional, in seconds, default is 6
 
@@ -25,8 +27,8 @@ provider:
 
   environment:
     # service: ${self:service}
-    # stage: ${self:provider.stage}
-    
+    stage: ${self:provider.stage}
+
     # TODO: get somehow from the Function's and Bucket's ARN
     AWS_LAMBDA_TRANSCODE: ${self:service}-${self:provider.stage}-transcode
     AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
@@ -48,7 +50,7 @@ functions:
 
   app-express:
     handler: aws/lambda-express.handler
-    timeout: 300
+    timeout: 30
     events:
       # all routes get proxied to the Express router
       - http: ANY /

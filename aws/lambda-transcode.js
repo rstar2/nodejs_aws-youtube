@@ -17,7 +17,7 @@ const transcode = require('../lib/mp3-process');
 const { AWS_S3_BUCKET } = require('./config');
 
 // AWS S3 service (by default use the AWS_S3_BUCKET bucket)
-const s3 = new AWS.S3({ params: { Bucket: AWS_S3_BUCKET } });
+const s3 = new AWS.S3({ signatureVersion: 'v4', params: { Bucket: AWS_S3_BUCKET } });
 
 const sanitizeFilename = (name) => {
     return encodeURIComponent(name.replace('"', '\''));

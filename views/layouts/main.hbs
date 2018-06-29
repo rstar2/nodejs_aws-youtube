@@ -22,6 +22,12 @@
     {{!-- This section allows templates to add custom templates here --}}
 	{{{_sections.templates}}}
     
+    {{!-- Make the context-path be accessible from the JS also --}}
+    <script>
+        const APP_CONTEXT_PATH = '{{context-path}}';
+        const APP_IS_LOCAL = {{isTruthy isLocal}};
+    </script>
+
     {{!-- This section allows templates to add custom JS here --}}
 	{{{_sections.body_js}}}
 </body>

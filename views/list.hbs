@@ -3,11 +3,15 @@
 </app-list>
 
 {{#section 'head_css'}}
-<link href="/public/css/styles.css" rel="stylesheet">
+<link href="{{context-path}}/public/css/styles.css" rel="stylesheet">
 {{/section}}
 
 {{#section 'body_js'}}
-<script src="/public/js/List.js"></script>
+{{!-- Load The Fetch Polyfill --}}
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.min.js"></script>
+
+<script src="{{context-path}}/public/js/List.js"></script>
 
 <script>
     new Vue({

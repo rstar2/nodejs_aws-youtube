@@ -1,9 +1,10 @@
 const youtube = require('../../lib/youtube');
-
 const store = require('../../lib/store');
 const download = require('../../lib/download');
 const transcode = require('../../lib/mp3-process');
 const transcodeStream = require('../../lib/mp3-stream');
+
+const aws_signed_url = require('../../aws/signed-url');
 
 module.exports = (app) => {
     app.get('/store/:videoId', (req, res) => {
@@ -43,13 +44,13 @@ module.exports = (app) => {
             .then(data => {
                 const { filename, url } = data;
                 const outFilename = filename + (transcodeMP3 ? '.mp3' : '');
-                
+
                 // create a downloadable stream
                 let stream = download(url, transcodeMP3);
 
                 // transcode it while streaming
                 stream = transcodeStream(stream);
-                
+
                 return { stream, outFilename };
             })
 
@@ -64,5 +65,25 @@ module.exports = (app) => {
             .catch((error) => res.status(500).send(`Something went wrong: ${error.message}`));
     });
 
+    // Download from the AWS S3 Bucket
+    app.get('/aws/download/:key', (req, res) => {
+        // if GET request
+        const fileKey = decodeURIComponent(req.params.key);
+        // if POST request
+        // const fileKey = req.body.key;
 
+        if (!fileKey) {
+            return res.status(500).send('Download key is missing')
+        }
+
+        aws_signed_url(fileKey)
+            .then(url => {
+                if (!url) {
+                    res.status(500).send(`No file with ${fileKey} yet`);
+                } else {
+                    res.status(200).send(url);
+                }
+            })
+            .catch(error => res.status(500).send(`Something went wrong: ${error.message}`));
+    });
 };

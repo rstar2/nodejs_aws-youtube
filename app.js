@@ -25,7 +25,7 @@ require('dotenv').config();
  * Factory method
  * @return {Promise<{app:Express, apiRouter:Router, viewRouter: Router}>}
  */
-module.exports = (prefix = '') => {
+module.exports = ({ stage = '', isLocal = true } = {}) => {
     const app = express();
     // the root folder for the template views
     app.set('views', path.join(__dirname, 'views'));
@@ -34,20 +34,25 @@ module.exports = (prefix = '') => {
     // use the Handlebars engine
     app.set('view engine', 'hbs');
 
+    // from Express 4.16 they are back in the core
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    // app.use(express.multipart());
+
     app.use('/public', express.static('public'));
 
-    if (prefix && !prefix.startsWith('/')) {
-        prefix = `/${prefix}`;
-    }
+    // set the stage as global local template variable (e.g. accessible in all routes)
+    app.locals["context-path"] = stage ? '/' + stage : '';
+    app.locals["isLocal"] = isLocal;
 
     // configure routes
     const apiRouter = express.Router();
 
-    app.use(`${prefix}/api`, apiRouter);
+    app.use('/api', apiRouter);
     require('./routes/api/common')(apiRouter);
 
     const viewRouter = express.Router();
-    app.use(`${prefix}/view`, viewRouter);
+    app.use('/view', viewRouter);
     require('./routes/view/common')(viewRouter);
 
     return Promise.resolve({
