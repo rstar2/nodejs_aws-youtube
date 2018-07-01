@@ -1,8 +1,9 @@
 module.exports = (app) => {
 
-    app.get('/', (req, res) => {
+    app.get('/download/:videoId', (req, res) => {
+        const videoId = req.params.videoId;
         // Render the download page template.
-        res.render('home');
+        res.render('download', { videoId });
     });
-    
+
 };

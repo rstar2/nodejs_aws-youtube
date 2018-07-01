@@ -1,0 +1,28 @@
+<v-app>
+<app-youtube video-id="{{videoId}}"></app-youtube> 
+<app-progress></app-progress>
+</v-app>
+
+{{#section 'head_css'}}
+<link href="{{context-path}}/public/css/styles.css" rel="stylesheet">
+{{/section}}
+
+{{#section 'body_js'}}
+{{!-- Load The Fetch Polyfill --}}
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.min.js"></script>
+
+<script src="{{context-path}}/public/js/Youtube.js"></script>
+<script src="{{context-path}}/public/js/Progress.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        components: {
+            'app-youtube': AppYoutube,
+            'app-progress': AppProgress
+        }
+    })
+</script>
+
+{{/section}}

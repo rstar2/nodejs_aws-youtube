@@ -1,26 +1,47 @@
 const AppList = {
     name: 'app-list',
     template: `
-      <vs-list>
-        <!-- 
-          Use the <template slot="title"/> passed from the parent.
-          Cannot use <slot name="title"/> as we have to pass it to the 'vs-title' prop.
-        -->
-        <vs-list-header :vs-title="$slots.title[0].text" vs-color="primary"/>
+      <v-layout row>
+        <v-flex xs12 sm8 offset-sm2>
 
-        <div v-if="list.length">
-            <!-- add custom class "list-item" -->
-            <vs-list-item v-for="(item, index) of list" :key="index"
-                vs-icon="check" :vs-title="item" class="list-item">
-                <vs-button vs-color="danger" vs-icon="save_alt" @click="download(index)">Download</vs-button>
-            </vs-list-item>
-        </div>
-        <div v-else>
-            <vs-list-item vs-title="No Items" class="list-item"></vs-list-item>
-        </div>
-
-
-      </vs-list>
+            <v-toolbar color="light-blue" dark>
+              <v-toolbar-side-icon></v-toolbar-side-icon>
+  
+              <v-toolbar-title>My files</v-toolbar-title>
+  
+              <v-spacer></v-spacer>
+  
+              <v-btn icon>
+                <v-icon>search</v-icon>
+              </v-btn>
+  
+              <v-btn icon>
+                <v-icon>view_module</v-icon>
+              </v-btn>
+            </v-toolbar>
+  
+            <v-list>
+              <v-list-tile v-for="(item, index) of list" :key="index" avatar @click="">
+                <v-list-tile-action>
+                  <v-icon class="amber white--text">folder</v-icon>
+                </v-list-tile-action>
+  
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item }}</v-list-tile-title>
+                </v-list-tile-content>
+  
+                <v-list-tile-action>
+                  <!-- <v-btn icon ripple> -->
+                    <v-icon color="grey lighten-1">info</v-icon>
+                  <!-- </v-btn> -->
+                </v-list-tile-action>
+              </v-list-tile>
+  
+              <v-divider inset></v-divider>
+            </v-list>
+            
+        </v-flex>
+      </v-layout>
     `,
     props: ['list'],
     methods: {
