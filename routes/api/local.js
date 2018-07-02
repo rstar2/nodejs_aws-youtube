@@ -26,6 +26,8 @@ module.exports = (app) => {
                 // }
 
                 // return promise.then(() => data);
+
+                count = 0;
                 return data;
             })
 
@@ -88,6 +90,7 @@ module.exports = (app) => {
             .catch(error => res.status(500).send(`Something went wrong: ${error.message}`));
     });
 
+    // TODO: just for local testing
     let count = 0;
     app.get('/signed-url/:key', (req, res) => {
         const fileKey = decodeURIComponent(req.params.key);

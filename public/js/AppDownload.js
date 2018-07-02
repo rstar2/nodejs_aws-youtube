@@ -44,24 +44,26 @@ const AppDownload = {
             //     return Promise.resolve();
             // }
 
-            const pollWithKey = this.poll.bind(this, key);
+            const poll = () => {
+                return this.poll(key)
+                    .then(url => {
+                        if (url) {
+                            this.status.isFinished = true;
+
+                            // this will initiate the download
+                            window.location = url;
+                        } else {
+                            return delay(5000)
+                                .then(() => poll());
+                        }
+                    });
+            };
 
             console.log('Poll started');
-            return this.poll(key)
-                .then(url => {
-                    if (url) {
-                        this.status.isFinished = true;
-
-                        // this will initiate the download
-                        window.location = url;
-                    } else {
-                        return delay(5000)
-                            .then(() => this.poll(key));
-                    }
-                });
+            return poll();
         },
         poll(key) {
-            const apiCheckUrl = `${APP_CONTEXT_PATH}/api/signed-url/${key}`
+            const apiCheckUrl = `${APP_CONTEXT_PATH}/api/signed-url/${encodeURIComponent(key)}`
 
             console.log('Poll... ');
 
