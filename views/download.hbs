@@ -1,7 +1,4 @@
-<v-app>
-<app-youtube video-id="{{videoId}}"></app-youtube> 
-<app-progress></app-progress>
-</v-app>
+<app-download video-id="{{videoId}}"/>
 
 {{#section 'head_css'}}
 <link href="{{context-path}}/public/css/styles.css" rel="stylesheet">
@@ -14,15 +11,15 @@
 
 <script src="{{context-path}}/public/js/Youtube.js"></script>
 <script src="{{context-path}}/public/js/Progress.js"></script>
+<script src="{{context-path}}/public/js/AppDownload.js"></script>
 
 <script>
     new Vue({
         el: '#app',
         components: {
-            'app-youtube': AppYoutube,
-            'app-progress': AppProgress
-        }
-    })
+            'app-download': AppDownload,
+        },
+    });
 </script>
 
 {{/section}}

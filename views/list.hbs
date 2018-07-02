@@ -1,6 +1,5 @@
-<app-list :list="{{toJSON list}}">
-    <template slot="title">Listing items in {{capitalize folder}}</template>
-</app-list>
+<app-list :list="{{toJSON list}}" title="Listing items in {{capitalize folder}}"/>
+
 
 {{#section 'head_css'}}
 <link href="{{context-path}}/public/css/styles.css" rel="stylesheet">
@@ -12,14 +11,15 @@
 <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.min.js"></script>
 
 <script src="{{context-path}}/public/js/List.js"></script>
+<script src="{{context-path}}/public/js/AppList.js"></script>
 
 <script>
     new Vue({
         el: '#app',
         components: {
             'app-list': AppList
-        }
-    })
+        },
+    });
 </script>
 
 {{/section}}

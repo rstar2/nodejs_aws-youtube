@@ -1,5 +1,4 @@
-const AppYoutube = {
-    name: 'app-youtube',
+const Youtube = {
     template: `
       <v-layout row>
         <v-flex xs12 sm8 offset-sm2>

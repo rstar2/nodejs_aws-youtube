@@ -19,7 +19,6 @@ module.exports = (app) => {
             .catch(error => res.status(500).send(`Something went wrong: ${error.message}`));
     });
 
-    // TODO: make a download view for this to be used
     app.get('/signed-url/:key', (req, res) => {
         const fileKey = decodeURIComponent(req.params.key);
 

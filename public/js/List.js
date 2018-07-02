@@ -1,5 +1,4 @@
-const AppList = {
-    name: 'app-list',
+const List = {
     template: `
       <v-layout row>
         <v-flex xs12 sm8 offset-sm2>
@@ -7,7 +6,9 @@ const AppList = {
             <v-toolbar color="light-blue" dark>
               <v-toolbar-side-icon></v-toolbar-side-icon>
   
-              <v-toolbar-title>My files</v-toolbar-title>
+              <v-toolbar-title>
+                <slot name="title">My List</slot>
+              </v-toolbar-title>
   
               <v-spacer></v-spacer>
   
@@ -47,7 +48,7 @@ const AppList = {
     methods: {
         download(index) {
             const key = this.list[index];
-            
+
             const downloadUrl = APP_IS_LOCAL ?
                 APP_CONTEXT_PATH + '/api/aws/download' :
                 APP_CONTEXT_PATH + '/api/signed-url';

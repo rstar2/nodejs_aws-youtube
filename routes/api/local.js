@@ -17,15 +17,16 @@ module.exports = (app) => {
             .then(data => {
                 const { filename, url } = data;
 
-                // first download locally
-                let promise = store(url, filename);
+                // // first download locally
+                // let promise = store(url, filename);
 
-                // Perform the actual transcoding if needed
-                if (transcodeMP3) {
-                    promise = promise.then(() => transcode(filename, filename + '.mp3'));
-                }
+                // // Perform the actual transcoding if needed
+                // if (transcodeMP3) {
+                //     promise = promise.then(() => transcode(filename, filename + '.mp3'));
+                // }
 
-                return promise.then(() => data);
+                // return promise.then(() => data);
+                return data;
             })
 
             // Send a response
@@ -86,4 +87,18 @@ module.exports = (app) => {
             })
             .catch(error => res.status(500).send(`Something went wrong: ${error.message}`));
     });
+
+    let count = 0;
+    app.get('/signed-url/:key', (req, res) => {
+        const fileKey = decodeURIComponent(req.params.key);
+
+        count++;
+        if (count == 5) {
+            res.status(500).send(`No file with ${fileKey} yet`);
+        } else {
+            res.status(200).send(JSON.stringify({}));
+        }
+
+    });
+    
 };
