@@ -17,24 +17,21 @@ module.exports = (app) => {
             .then(data => {
                 const { filename, url } = data;
 
-                // // first download locally
-                // let promise = store(url, filename);
+                // first download locally
+                let promise = store(url, filename);
 
-                // // Perform the actual transcoding if needed
-                // if (transcodeMP3) {
-                //     promise = promise.then(() => transcode(filename, filename + '.mp3'));
-                // }
+                // Perform the actual transcoding if needed
+                if (transcodeMP3) {
+                    promise = promise.then(() => transcode(filename, filename + '.mp3'));
+                }
 
-                // return promise.then(() => data);
-
-                count = 0;
-                return data;
+                return promise.then(() => data);
             })
 
             // Send a response
             .then(data => res.status(200).send(JSON.stringify(data)))
             // Handle errors
-            .catch((error) => res.status(500).send(`Something went wrong: ${error.message}`));
+            .catch((error) => res.status(500).send(JSON.stringify({ error: `Something went wrong: ${error.message}` })));
     });
 
     app.get('/download/:videoId', (req, res) => {
@@ -69,39 +66,22 @@ module.exports = (app) => {
     });
 
     // Download from the AWS S3 Bucket
-    app.get('/aws/download/:key', (req, res) => {
+    app.get('/aws/signed-url/:fileKey', (req, res) => {
         // if GET request
-        const fileKey = decodeURIComponent(req.params.key);
+        const fileKey = decodeURIComponent(req.params.fileKey);
         // if POST request
-        // const fileKey = req.body.key;
-
-        if (!fileKey) {
-            return res.status(500).send('Download key is missing')
-        }
+        // const fileKey = req.body.fileKey;
+        // if (!fileKey) {
+        //     res.status(500).send(JSON.stringify({ error: 'Download key is missing' }));
+        //     return;
+        // }
 
         aws_signed_url(fileKey)
             .then(url => {
-                if (!url) {
-                    res.status(500).send(`No file with ${fileKey} yet`);
-                } else {
-                    res.status(200).send(url);
-                }
+                // Note - 'url' can be still missing
+                res.status(200).send(JSON.stringify({ url }));
             })
-            .catch(error => res.status(500).send(`Something went wrong: ${error.message}`));
-    });
-
-    // TODO: just for local testing
-    let count = 0;
-    app.get('/signed-url/:key', (req, res) => {
-        const fileKey = decodeURIComponent(req.params.key);
-
-        count++;
-        if (count == 5) {
-            res.status(500).send(`No file with ${fileKey} yet`);
-        } else {
-            res.status(200).send(JSON.stringify({}));
-        }
-
+            .catch(error => res.status(500).send(JSON.stringify({ error: `Something went wrong: ${error.message}` })));
     });
     
 };

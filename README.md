@@ -15,15 +15,6 @@ $ sls config
 $ sls deploy
 ```
 
-4. Test event
-```
-{
-  "url": "https://r2---sn-hvcpauxa-nv4s.googlevideo.com/videoplayback?itag=140&pl=24&mime=audio%2Fmp4&fexp=23709359&c=WEB&keepalive=yes&pcm2cms=yes&mm=31%2C29&mn=sn-hvcpauxa-nv4s%2Csn-nv47ln7z&gir=yes&requiressl=yes&ei=WsYoW4KOFIS11gKt4p04&ms=au%2Crdu&mt=1529398734&mv=m&dur=198.089&expire=1529420474&ip=77.70.63.244&key=yt6&lmt=1508866017022484&id=o-ADZn8HIqqFLtaf1Ig5-7HwDw5HgpRu835UtwCVaMKgaj&fvip=2&source=youtube&initcwndbps=1551250&ipbits=0&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Ckeepalive%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpcm2cms%2Cpl%2Crequiressl%2Csource%2Cexpire&clen=3146781&ratebypass=yes&signature=37B854A52E29F92FE15935D988D7F41E72BDD0B7.1E0B443FA2036ADB7FEFC457ED52FC70F3F66ADF",
-  "filename": "Dan Auerbach - The Prowl.aac",
-  "key": "1529398872917 - Dan Auerbach - The Prowl"
-}
-```
-
 ## 2. Install FFMPEG
 
 ## 3. Install Exodus 
@@ -32,7 +23,7 @@ See https://github.com/intoli/exodus
 $ pip install --user exodus_bundler
 ```
 
-### Add the exodus executable to the path
+### Add the Exodus executable to the path
 
 For Linux add in '~/.bashrc':
 ```
@@ -85,7 +76,8 @@ functions:
 When a bookmark/bookmarklet is clicked while we are for instance in a YouTube page
 then it will be executed in the context of the current page.
 So to execute JavaScript in the same page context just use the "javascript:" prefix:
-TODO:
+
+For using the AWS transcode url
 ```
-javascript:window.open(`https://g9wvw8v13h.execute-api.eu-central-1.amazonaws.com/dev/XXX/${window.location.href}`);
+javascript:window.open(`{{aws-lambda-http-gateway}}/{{stage}}/view/download/${encodeURIComponent(window.location.href)}`)
 ```

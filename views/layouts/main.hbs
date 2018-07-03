@@ -9,7 +9,9 @@
     {{!-- Using Vuetify --}}
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-    
+    {{!-- If FontAwesome icons are needed --}}
+    {{!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> --}}
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     {{!-- This section allows templates to add custom CSS here --}}
@@ -37,6 +39,9 @@
     <script>
         const APP_CONTEXT_PATH = '{{context-path}}';
         const APP_IS_LOCAL = {{isTruthy isLocal}};
+
+        // defined just because the html tagged template is used by a VSCode plugin to lint/hint the HTML inside
+        const html = (strings) => strings.raw[0];
     </script>
 
     {{!-- This section allows templates to add custom JS here --}}

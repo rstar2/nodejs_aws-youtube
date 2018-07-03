@@ -1,19 +1,25 @@
+//eslint-disable-next-line
 const Progress = {
-    template: `
-      <v-layout row>
+    template: html`
+    <v-layout row>
         <v-flex xs12 sm8 offset-sm2>
-          <v-progress-linear :indeterminate="!status.isFinished"></v-progress-linear>
-          <v-alert :value="!!status.error" type="error"> {{status.error}} </v-alert>
+            <v-progress-linear :indeterminate="!state.status"></v-progress-linear>
+            <v-alert :value="state.status" :type="alertType"> {{state.status}} </v-alert>
         </v-flex>
-      </v-layout>
+    </v-layout>
     `,
     props: {
-        status: {
-            type:Object,
+        state: {
+            type: Object,
             default: {
-                isFinished: false,
-                error: null
+                status: null,
+                isError: false
             }
         }
     },
+    computed: {
+        alertType() {
+            return this.state.isError ? 'error' : 'info';
+        }
+    }
 };
