@@ -1,33 +1,20 @@
 //eslint-disable-next-line
 const AppList = {
     template: html`
-        <v-app>
-            <List :list="list" @download="download">
-                <template slot="title">{{ title }}</template>
-            </List>
-            <v-snackbar :value="error" :top="true" :right="true" :absolute="true">
-                {{ error }}
-                <v-btn icon flat @click="error = ''" >
-                    <v-icon color="pink">close</v-icon>
-                </v-btn>
-            </v-snackbar>
-        </v-app>
+        <List :list="list" @download="download">
+            <template slot="title">{{ title }}</template>
+        </List>
     `,
     components: {
         //eslint-disable-next-line
         List
     },
     props: ['list', 'title'],
-    data() {
-        return {
-            error: ''
-        };
-    },
     methods: {
         download(index) {
             const fileKey = this.list[index];
 
-            console.log('GEt signed-url', fileKey);
+            console.log('Get signed-url', fileKey);
 
             const signedUrl = APP_IS_LOCAL ?
                 APP_CONTEXT_PATH + '/api/aws/signed-url' :
@@ -58,18 +45,30 @@ const AppList = {
 
                 .then(({ url }) => {
                     if (!url) {
-                        this.error = `Cannot get a signed-url for downloading ${fileKey}`;
+                        console.log(`Cannot get a signed-url for downloading ${fileKey}`);
+                        this.$snackbar.show({
+                            text: `Cannot get a signed-url for downloading ${fileKey}`,
+                            color: 'error'
+                        });
                         return;
                     }
 
                     console.log(`Download ${fileKey}`);
+                    this.$snackbar.show({
+                        text: `Start downloading ${fileKey}`,
+                        color: 'success',
+                        timeout: 2000
+                    });
                     // request/download the signed url
                     window.location.href = url;
                 })
 
                 .catch(({ error }) => {
                     console.log(`Download ${fileKey} failed`, error);
-                    this.error = error || `Download ${fileKey} failed`;
+                    this.$snackbar.show({
+                        text: `Download ${fileKey} failed`,
+                        color: 'error'
+                    });
                 });
         }
     }

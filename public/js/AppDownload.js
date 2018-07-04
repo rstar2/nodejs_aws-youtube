@@ -1,12 +1,14 @@
 const delay = ms => new Promise(_ => setTimeout(_, ms));
 
+const transcodeMP3 = new URLSearchParams(window.location.search).has('mp3') ? 'mp3' : '';
+
 //eslint-disable-next-line
 const AppDownload = {
     template: html`
-        <v-app>
+        <div>
             <Youtube :video-id="videoId"></Youtube>
             <Progress :state="state"></Progress>
-        </v-app>
+        </div>
     `,
     components: {
         //eslint-disable-next-line
@@ -24,7 +26,7 @@ const AppDownload = {
         };
     },
     created() {
-        const apiTranscodeUrl = `${APP_CONTEXT_PATH}/api/transcode/${this.videoId}`;
+        const apiTranscodeUrl = `${APP_CONTEXT_PATH}/api/transcode/${this.videoId}?${transcodeMP3}`;
 
         fetch(apiTranscodeUrl)
             .then(res => {
@@ -64,7 +66,7 @@ const AppDownload = {
             return poll();
         },
         poll(key) {
-            const apiCheckUrl = `${APP_CONTEXT_PATH}/api/signed-url/${encodeURIComponent(key)}`;
+            const apiCheckUrl = `${APP_CONTEXT_PATH}/api/signed-url/${encodeURIComponent(key)}?${transcodeMP3}`;
 
             console.log('Poll... ');
 

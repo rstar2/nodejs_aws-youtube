@@ -1,5 +1,7 @@
-<app-list :list="{{toJSON list}}" title="Listing items in {{capitalize folder}}"/>
-
+<v-app>
+    <app-list :list="{{toJSON list}}" title="Listing items in {{capitalize folder}}"></app-list>
+    <Snackbar global></Snackbar>
+</v-app>
 
 {{#section 'head_css'}}
 <link href="{{context-path}}/public/css/styles.css" rel="stylesheet">
@@ -10,6 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.min.js"></script>
 
+<script src="{{context-path}}/public/js/Snackbar.js"></script>
 <script src="{{context-path}}/public/js/List.js"></script>
 <script src="{{context-path}}/public/js/AppList.js"></script>
 
@@ -17,7 +20,7 @@
     new Vue({
         el: '#app',
         components: {
-            'app-list': AppList
+            'app-list': AppList,
         },
     });
 </script>

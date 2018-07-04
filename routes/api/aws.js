@@ -8,6 +8,8 @@ module.exports = (app) => {
         const transcodeMP3 = req.query.mp3 !== undefined;
         const { videoId } = req.params;
 
+        console.log(`Start transcoding of ${videoId}, MP3=${transcodeMP3}`);
+
         // Get information on the available video file formats.
         youtube(videoId, transcodeMP3)
             // invoke the AWS Lambda - e.g store and transcode will be in the cloud
@@ -23,6 +25,8 @@ module.exports = (app) => {
         const key = decodeURIComponent(req.params.key);
         const transcodeMP3 = req.query.mp3 !== undefined;
         const isFileKey = req.query.isFileKey === 'true';
+
+        console.log(`Generate signed-url for ${key}, MP3=${transcodeMP3}`);
 
         let fileKey, logKey;
         if (isFileKey) {

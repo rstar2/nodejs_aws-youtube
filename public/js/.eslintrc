@@ -19,9 +19,10 @@
         "no-var"           : "warn"
     },
     "globals": {
-        "APP_IS_LOCAL": true,
-        "APP_CONTEXT_PATH": true,
-        "html": true
+        "APP_IS_LOCAL": false,
+        "APP_CONTEXT_PATH": false,
+        "html": false,
+        "Vue": false
     }
 }
   
