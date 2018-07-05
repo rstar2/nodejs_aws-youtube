@@ -81,3 +81,7 @@ For using the AWS transcode url
 ```
 javascript:window.open(`{{aws-lambda-http-gateway}}/{{stage}}/view/download/${encodeURIComponent(window.location.href)}`)
 ```
+
+
+## When the local-express app is deployed to a different server it has to have proper AWS credentials:
+E.g. like existing AWS profile in ~/.aws/credentials
