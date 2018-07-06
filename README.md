@@ -51,6 +51,8 @@ $ npm install aws-serverless-express
 ```
 
 2. Create new Lambda handler (lambda-express.js)
+Using: ```$ npm i aws-serverless-express```
+
 ```
 const awsServerlessExpress = require('aws-serverless-express');
 const app = require('../app');
@@ -59,6 +61,15 @@ const server = awsServerlessExpress.createServer(app);
 exports.handler = (event, context) => (
     awsServerlessExpress.proxy(server, event, context)
 );
+```
+
+Using: ```$ npm i serverless-http```
+
+```
+const serverless = require('serverless-http');
+const app = require('../app');
+
+exports.handler = serverless(app);
 ```
 
 3. Add a lambda handler

@@ -58,6 +58,8 @@ functions:
       - http: 'ANY {proxy+}'
         cors: true
 
+    # Using the 'serverless-iam-roles-per-function' plugin we can
+    # easily define IAM roles per function
     iamRoleStatementsInherit: true
     iamRoleStatements:
       - Effect: Allow
