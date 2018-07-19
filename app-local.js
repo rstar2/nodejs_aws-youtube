@@ -5,8 +5,8 @@ const main = async () => {
     require('./routes/api/local')(apiRouter);
     require('./routes/view/local')(viewRouter);
 
-    // run the Express server locally on port 3000
-    app.listen(process.env.PORT || 3000);
+    // run the Express server locally on port 4001
+    app.listen(process.env.PORT || 4001);
 };
 
 main();
