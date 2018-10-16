@@ -23,7 +23,7 @@ require('dotenv').config();
 
 /**
  * Factory method
- * @return {Promise<{app:Express, apiRouter:Router, viewRouter: Router}>}
+ * @return {Promise<{app:Express.Application, apiRouter:Express.IRouter, viewRouter: Express.IRouter}>}
  */
 module.exports = ({ stage = '', isLocal = true } = {}) => {
     const app = express();
@@ -42,8 +42,8 @@ module.exports = ({ stage = '', isLocal = true } = {}) => {
     app.use('/public', express.static('public'));
 
     // set the stage as global local template variable (e.g. accessible in all routes)
-    app.locals["context-path"] = stage ? '/' + stage : '';
-    app.locals["isLocal"] = isLocal;
+    app.locals['context-path'] = stage ? '/' + stage : '';
+    app.locals['isLocal'] = isLocal;
 
     // configure routes
     const apiRouter = express.Router();

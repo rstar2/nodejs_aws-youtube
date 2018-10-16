@@ -65,7 +65,6 @@ functions:
       - Effect: Allow
         Action:
           - lambda:InvokeFunction
-          - lambda:InvokeAsync
         Resource: "*"  
 
 resources:

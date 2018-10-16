@@ -40,8 +40,11 @@
         const APP_CONTEXT_PATH = '{{context-path}}';
         const APP_IS_LOCAL = {{isTruthy isLocal}};
 
-        // defined just because the html tagged template is used by a VSCode plugin to lint/hint the HTML inside
-        const html = (strings) => strings.raw[0];
+        // defined just because the html tagged template is used
+		 // by a VSCode plugin to lint/hint the HTML inside Vue component templates
+		 // when using html`.....`,
+		 // so if this is missing the cJS will break with ReferenceError: html is not defined
+         const html = (strings) => strings.raw[0];
     </script>
 
     {{!-- This section allows templates to add custom JS here --}}
