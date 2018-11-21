@@ -9,9 +9,7 @@ require('../utils/promise');
 
 // TODO: Add the ./exodus/bin/ffmpeg to the PATH
 const ffmpeg = path.resolve(__dirname, '..', 'exodus', 'bin', 'ffmpeg');
-console.log(ffmpeg);
 process.env.PATH = process.env.PATH + ':' + ffmpeg;
-console.log(process.env.PATH);
 
 const transcode = require('../lib/mp3-process');
 const { AWS_S3_BUCKET } = require('./config');

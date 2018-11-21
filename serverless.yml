@@ -33,14 +33,18 @@ provider:
     AWS_LAMBDA_TRANSCODE: ${self:service}-${self:provider.stage}-transcode
     AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
 
-package:
-  exclude:
-    - exodus/**
+# package:
+#   exclude:
+#     - exodus/**
 
 functions:
   transcode:
     handler: aws/lambda-transcode.handler
     timeout: 300 # use all the AWS Maximum execution duration per request limit
+
+    # environment:
+    #   # Use the Exodus ffmpeg bundled executable.
+    #   FFMPEG_PATH: /exodus/bin/ffmpeg
 
     # If no trigger-events are specified that means that the function will be able to be called only from the AWS SKD
     # events:
