@@ -7,7 +7,7 @@ const tempy = require('tempy');
 
 require('../utils/promise');
 
-// TODO: Add the ./exodus/bin/ffmpeg to the PATH
+// Add the ./exodus/bin/ffmpeg to the PATH
 const ffmpeg = path.resolve(__dirname, '..', 'exodus', 'bin', 'ffmpeg');
 process.env.PATH = process.env.PATH + ':' + ffmpeg;
 
