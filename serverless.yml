@@ -33,9 +33,9 @@ provider:
     AWS_LAMBDA_TRANSCODE: ${self:service}-${self:provider.stage}-transcode
     AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
 
-# package:
-#   exclude:
-#     - exodus/**
+package:
+  exclude:
+    - .vscode/**
 
 functions:
   transcode:
