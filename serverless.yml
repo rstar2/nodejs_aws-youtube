@@ -36,6 +36,7 @@ provider:
 package:
   exclude:
     - .vscode/**
+    - ffmpeg-git-20181117-amd64-static/**
 
 functions:
   transcode:
