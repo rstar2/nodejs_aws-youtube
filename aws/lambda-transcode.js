@@ -7,10 +7,6 @@ const tempy = require('tempy');
 
 require('../utils/promise');
 
-// Add the ./exodus/bin/ffmpeg to the PATH
-const ffmpeg = path.resolve(__dirname, '..', 'exodus', 'bin', 'ffmpeg');
-process.env.PATH = process.env.PATH + ':' + ffmpeg;
-
 const transcode = require('../lib/mp3-process');
 const { AWS_S3_BUCKET } = require('./config');
 
@@ -23,7 +19,26 @@ const sanitizeFilename = (name) => {
 
 const createKey = (key, type) => `${type}/${key}.${type}`;
 
+/**
+ * 
+ * @param {String} url URL do request and download
+ * @param {String} outputFilename the filename where to download to URL
+ * @return {Promise}
+ */
+const downloadFile = (url, outputFilename) => {
+    return new Promise((resolve, revoke) => {
+        const writeStream = fs.createWriteStream(outputFilename);
+        writeStream.on('finish', resolve);
+        writeStream.on('error', revoke);
+        request(url).pipe(writeStream);
+    });
+}
+
 exports.handler = (event, context, callback) => {
+    // Specify where the ffmpeg is to be found 
+    const ffmpeg = path.resolve(__dirname, '../exodus/bin/ffmpeg');
+    process.env.FFMPEG_PATH = ffmpeg;
+
     // We're going to do the transcoding asynchronously, so we callback immediately.
     callback();
 
@@ -34,24 +49,21 @@ exports.handler = (event, context, callback) => {
     const logKey = createKey(key, 'log');
 
     // Create temporary input/output filenames that we can clean up afterwards.
-    const inputFilename = tempy.file();
-    const outputFilename = transcodeMP3 ? tempy.file({ extension: 'mp3' }) : inputFilename;
+    const youtubeFilename = tempy.file();
+    const resultFilename = transcodeMP3 ? tempy.file({ extension: 'mp3' }) : youtubeFilename;
 
     // Download the source file.
-    new Promise((resolve, revoke) => {
-        const writeStream = fs.createWriteStream(inputFilename);
-        writeStream.on('finish', resolve);
-        writeStream.on('error', revoke);
-        request(url).pipe(writeStream);
-    })
+    downloadFile(url, youtubeFilename)
         // Perform the actual transcoding.
-        .then(() => transcodeMP3 ? transcode(inputFilename, outputFilename) : 'No MP3 transcoding')
+        .then(() => transcodeMP3 ? transcode(youtubeFilename, resultFilename) : 'No MP3 transcoding')
 
-        // Upload the generated MP3 to S3.
+        // Upload the result file (the MP4, or the transcoded MP3) to S3.
         .then(logContent => {
+            console.log('Transcode result:', logContent);
+
             return s3.putObject({
                 Key: fileKey,
-                Body: fs.createReadStream(outputFilename),
+                Body: fs.createReadStream(resultFilename),
                 ContentType: 'audio/mpeg',
                 ContentDisposition: `attachment; filename="${sanitizeFilename(filename)}"`,
             }).promise()
@@ -68,15 +80,15 @@ exports.handler = (event, context, callback) => {
 
         // Always delete the temporary files.
         .always(() => {
-            [inputFilename, outputFilename].forEach((filename) => {
+            [youtubeFilename, resultFilename].forEach((filename) => {
                 if (fs.existsSync(filename)) {
                     fs.unlinkSync(filename);
                 }
             });
         })
-        // just trace it and rethrow it
+        // just trace it,
+        // we already have called the AWS Lambda's callback, so nothing more to do
         .catch(error => {
             console.error(error);
-            throw error;
         });
 };
