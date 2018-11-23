@@ -7,3 +7,5 @@ jspm_packages
 
 # The exodus bundled FFMPEG
 # exodus
+
+aws_artifact.zip

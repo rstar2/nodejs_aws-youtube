@@ -34,11 +34,15 @@ provider:
     AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
 
 package:
+  # if 'artifact' is specified include/exclude will be ignored - this allows for manual zipping
+#   artifact: aws_artifact.zip
   exclude:
     - .vscode/**
     - .serverless/** # this is actuall auto-excluded
     - .eslintrc
     - .gitignore
+    - aws_artifact.zip
+    - docker/**
     - package-lock.json
     - package.json
     - README.md

@@ -96,3 +96,14 @@ javascript:window.open(`{{aws-lambda-http-gateway}}/{{stage}}/view/download/${en
 
 ## When the local-express app is deployed to a different server it has to have proper AWS credentials:
 E.g. like existing AWS profile in ~/.aws/credentials
+
+
+
+## Building FFMPEG in Docker container
+```
+$ docker build -t aws-exodus-ffmpeg ./docker
+```
+
+```
+$ docker run -it --rm -v /exodus aws-exodus-ffmpeg
+```
