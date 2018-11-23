@@ -18,9 +18,6 @@ require('handlebars-helpers')({
     handlebars: hbs.handlebars  // Note hbs.handlebars returns the internal Handlebars instance
 });
 
-// load the .env file into process.env
-require('dotenv').config();
-
 /**
  * Factory method
  * @return {Promise<{app:Express.Application, apiRouter:Express.IRouter, viewRouter: Express.IRouter}>}
@@ -39,7 +36,7 @@ module.exports = ({ stage = '', isLocal = true } = {}) => {
     app.use(express.urlencoded({ extended: false }));
     // app.use(express.multipart());
 
-    app.use('/public', express.static('public'));
+    app.use('/public', express.static(path.join(__dirname, 'public')));
 
     // set the stage as global local template variable (e.g. accessible in all routes)
     app.locals['context-path'] = stage ? '/' + stage : '';

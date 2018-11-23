@@ -36,11 +36,18 @@ provider:
 package:
   exclude:
     - .vscode/**
-    - ffmpeg-git-20181117-amd64-static/**
+    - .serverless/** # this is actuall auto-excluded
+    - .eslintrc
+    - .gitignore
+    - package-lock.json
+    - package.json
+    - README.md
+    - serverless.yml # this is actuall auto-excluded
+    
 
 functions:
   transcode:
-    handler: aws/lambda-transcode.handler
+    handler: src/aws/lambda-transcode.handler
     timeout: 900 # use all the AWS Maximum execution duration per request limit
 
     # environment:
@@ -54,7 +61,7 @@ functions:
     #       method: GET
 
   app-express:
-    handler: aws/lambda-express.handler
+    handler: src/aws/lambda-express.handler
     timeout: 30
     events:
       # all routes get proxied to the Express router

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app-local.js"
+    "start": "node src/app-local.js"
   },
   "keywords": [],
   "author": "",
