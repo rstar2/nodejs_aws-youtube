@@ -1,6 +1,6 @@
 FROM python
 
-VOLUME [ "/exodus" ]
+COPY docker-entrypoint.sh /usr/local/bin/
     
 # 0. curl is already there
 # 1. install zip
@@ -13,10 +13,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg
 
 
-RUN \
-    pip install --user exodus-bundler && \
-    export PATH="~/.local/bin/:${PATH}"
- 
+RUN pip install --user exodus-bundler && \
+    export PATH="$HOME/.local/bin/:$PATH" && \
+    exodus --tarball ffmpeg | tar -zx
+
+# ENTRYPOINT ["docker-entrypoint.sh"]
 CMD [ "/bin/bash" ]    
 
 
