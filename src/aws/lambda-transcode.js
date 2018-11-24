@@ -36,7 +36,7 @@ const downloadFile = (url, outputFilename) => {
 
 exports.handler = (event, context, callback) => {
     // Specify where the ffmpeg is to be found 
-    const ffmpeg = path.resolve(__dirname, '../exodus/bin/ffmpeg');
+    const ffmpeg = path.resolve(__dirname, '../../exodus/bin/ffmpeg');
     process.env.FFMPEG_PATH = ffmpeg;
 
     // We're going to do the transcoding asynchronously, so we callback immediately.
@@ -65,7 +65,7 @@ exports.handler = (event, context, callback) => {
                 Key: fileKey,
                 Body: fs.createReadStream(resultFilename),
                 ContentType: 'audio/mpeg',
-                ContentDisposition: `attachment; filename="${sanitizeFilename(filename)}"`,
+                ContentDisposition: `attachment; filename="${sanitizeFilename(filename + (transcodeMP3 ? '.mp3' : ''))}"`,
             }).promise()
                 .then(() => {
                     const logFilename = path.basename(logKey);

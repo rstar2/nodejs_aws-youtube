@@ -35,18 +35,11 @@ provider:
 
 package:
   # if 'artifact' is specified include/exclude will be ignored - this allows for manual zipping
-#   artifact: aws_artifact.zip
-  exclude:
-    - .vscode/**
-    - .serverless/** # this is actuall auto-excluded
-    - .eslintrc
-    - .gitignore
-    - aws_artifact.zip
-    - docker/**
-    - package-lock.json
-    - package.json
-    - README.md
-    - serverless.yml # this is actuall auto-excluded
+  artifact: aws-artifact.zip
+  include:
+    - src/**
+    - node_modules/**
+    - exodus/**
     
 
 functions:

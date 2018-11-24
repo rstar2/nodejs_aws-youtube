@@ -116,3 +116,6 @@ $ docker container cp aws-youtube:/exodus ./exodus
 ```
 
 4. Remove container
+```
+$ docker rm aws-youtube
+```
