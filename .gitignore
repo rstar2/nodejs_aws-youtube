@@ -6,6 +6,7 @@ jspm_packages
 .serverless
 
 # The exodus bundled FFMPEG
-# exodus
+exodus
 
-aws_artifact.zip
+# The docker artifact
+aws-artifact.zip
