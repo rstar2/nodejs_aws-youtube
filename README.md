@@ -100,22 +100,3 @@ E.g. like existing AWS profile in ~/.aws/credentials
 
 
 ## Building FFMPEG in Docker container
-1. Build proper image with all needed
-```
-$ docker build -t aws-exodus-ffmpeg ./docker
-```
-
-2. Run a container from it, and let it stop - it doesn't matter
-```
-$ docker run -it --name aws-youtube aws-exodus-ffmpeg /bin/true
-```
-
-3. Copy container's filesystem to the host's
-```
-$ docker container cp aws-youtube:/exodus ./exodus
-```
-
-4. Remove container
-```
-$ docker rm aws-youtube
-```
