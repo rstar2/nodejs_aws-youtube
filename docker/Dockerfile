@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     ffmpeg
 
+WORKDIR /app
 
 RUN pip install --user exodus-bundler && \
     export PATH="$HOME/.local/bin/:$PATH" && \
