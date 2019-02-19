@@ -16,7 +16,15 @@ const AppDownload = {
         //eslint-disable-next-line
         Progress
     },
-    props: ['videoId'],
+    props: {
+        videoId: {
+            type: String,
+            required: true
+        },
+        isLocal: {
+            type: Boolean,
+        }
+    },
     data() {
         return {
             state: {
@@ -26,25 +34,42 @@ const AppDownload = {
         };
     },
     created() {
-        const apiTranscodeUrl = `${APP_CONTEXT_PATH}/api/transcode/${this.videoId}?${transcodeMP3}`;
+        if (this.isLocal) {
+            const apiDownloadUrl = `${APP_CONTEXT_PATH}/api/download/${this.videoId}?${transcodeMP3}`;
 
-        fetch(apiTranscodeUrl)
-            .then(res => {
-                if (!res.ok) {
-                    return res.json().then(err => Promise.reject(err));
-                }
-                return res;
-            })
-            .then(res => res.json())
-            .then(({ key }) => this.startPolling(key))
-            .catch(({ error }) => {
-                this.state.status = error;
-                this.state.isError = true;
-                console.log('Poll failed');
-            });
+            // 1.
+            // window.open(apiDownloadUrl, '_blank');
+
+            // 2. Adding an anchot tag and clicking it
+            // Note: if 'download' attribute is not set it will not work as click can be only forced only inside a User-Action "event tick"
+            const link = document.createElement('a');
+            link.href = apiDownloadUrl;
+            link.setAttribute('target', '_blank');
+            link.style.display = 'none';
+            link.setAttribute('download', ''); // This is obligatory to set 'download' attribute
+            document.body.appendChild(link);
+            link.click();
+        } else {
+            const apiTranscodeUrl = `${APP_CONTEXT_PATH}/api/transcode/${this.videoId}?${transcodeMP3}`;
+
+            fetch(apiTranscodeUrl)
+                .then(res => {
+                    if (!res.ok) {
+                        return res.json().then(err => Promise.reject(err));
+                    }
+                    return res;
+                })
+                .then(res => res.json())
+                .then(({ key }) => this.awsStartPolling(key))
+                .catch(({ error }) => {
+                    this.state.status = error;
+                    this.state.isError = true;
+                    console.log('Poll failed');
+                });
+        }
     },
     methods: {
-        startPolling(key) {
+        awsStartPolling(key) {
             const poll = () => {
                 return this.poll(key)
                     .then(url => {
@@ -65,7 +90,7 @@ const AppDownload = {
             console.log('Poll started');
             return poll();
         },
-        poll(key) {
+        awsPoll(key) {
             const apiCheckUrl = `${APP_CONTEXT_PATH}/api/signed-url/${encodeURIComponent(key)}?${transcodeMP3}`;
 
             console.log('Poll... ');

@@ -10,6 +10,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env-local') });
     require('./routes/api/local')(apiRouter);
     require('./routes/view/local')(viewRouter);
 
-    // run the Express server locally on port 4001
-    app.listen(process.env.PORT || 4001);
+    // run the Express server locally
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => console.log(`YouTube Downloader app listening on port ${port}!`));
 })();
