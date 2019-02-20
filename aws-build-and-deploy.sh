@@ -4,11 +4,11 @@
 rm -f aws-artifact.zip
 
 # create Docker image
-docker build -t aws-exodus-ffmpeg ./docker
+docker build -t aws-exodus-ffmpeg ./ffmpeg
 
 # spin up a Docker container from the image and mount the local ./src and ./node_modules folders,
 # and keep it alive/running by either:
-# 1. run "/bin/bash" as deamon -d, but attach TTY -t it , otherwise "bash" will exit
+# 1. run "/bin/bash" as deamon -d, but attach TTY -t to it , otherwise "bash" will exit
 # when it's not connected to a terminal and has nothing to run
 docker run -td -v `pwd`/src:/app/src -v `pwd`/node_modules:/app/node_modules --name aws-youtube aws-exodus-ffmpeg
 # 2. run "sleep infinity" as the container's command.

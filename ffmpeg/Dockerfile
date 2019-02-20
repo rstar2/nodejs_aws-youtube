@@ -17,5 +17,3 @@ RUN pip install --user exodus-bundler && \
     exodus --tarball ffmpeg | tar -zx
 
 CMD [ "/bin/bash" ]    
-
-# TODO: Check https://github.com/techinasia/amazon-linux-python3.6/blob/master/Dockerfile

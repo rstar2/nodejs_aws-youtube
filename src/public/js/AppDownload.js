@@ -35,20 +35,25 @@ const AppDownload = {
     },
     created() {
         if (this.isLocal) {
+            this.state.status = 'Start downloading now...';
+
             const apiDownloadUrl = `${APP_CONTEXT_PATH}/api/download/${this.videoId}?${transcodeMP3}`;
 
-            // 1.
+            // 1. simplest - this will initiate the download
+            window.location = apiDownloadUrl;
+
+            // 2. open a new tab
             // window.open(apiDownloadUrl, '_blank');
 
-            // 2. Adding an anchot tag and clicking it
+            // 3. Adding an anchor tag and clicking it
             // Note: if 'download' attribute is not set it will not work as click can be only forced only inside a User-Action "event tick"
-            const link = document.createElement('a');
-            link.href = apiDownloadUrl;
-            link.setAttribute('target', '_blank');
-            link.style.display = 'none';
-            link.setAttribute('download', ''); // This is obligatory to set 'download' attribute
-            document.body.appendChild(link);
-            link.click();
+            // const link = document.createElement('a');
+            // link.href = apiDownloadUrl;
+            // link.setAttribute('target', '_blank');
+            // link.style.display = 'none';
+            // link.setAttribute('download', ''); // This is obligatory to set 'download' attribute
+            // document.body.appendChild(link);
+            // link.click();
         } else {
             const apiTranscodeUrl = `${APP_CONTEXT_PATH}/api/transcode/${this.videoId}?${transcodeMP3}`;
 
@@ -71,7 +76,7 @@ const AppDownload = {
     methods: {
         awsStartPolling(key) {
             const poll = () => {
-                return this.poll(key)
+                return this.awsPoll(key)
                     .then(url => {
                         if (url) {
                             this.state.status = 'Start downloading now...';
