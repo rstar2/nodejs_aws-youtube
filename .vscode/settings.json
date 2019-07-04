@@ -9,5 +9,6 @@
         "activityBar.background": "#2D2F1D",
         "titleBar.activeBackground": "#404229",
         "titleBar.activeForeground": "#FAFBF8"
-    }
+    },
+    "maven.view": "hierarchical"
 }

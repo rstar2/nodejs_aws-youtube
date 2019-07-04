@@ -30,7 +30,7 @@ For Linux add in '~/.bashrc':
 $ export PATH="~/.local/bin/:${PATH}"
 ```
 
-For Windows (the p)
+For Windows (the path)
 ```
 $ PATH=%PATH%;%userhome%\AppData\Roaming\Python\Python36\Scripts
 ```
