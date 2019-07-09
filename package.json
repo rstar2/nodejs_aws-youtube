@@ -18,11 +18,11 @@
     "handlebars-helpers": "^0.10.0",
     "request": "^2.88.0",
     "serverless-http": "^2.0.2",
+    "serverless-iam-roles-per-function": "^2.0.1",
     "tempy": "^0.3.0",
     "ytdl-core": "^0.29.2"
   },
   "devDependencies": {
-    "aws-sdk": "^2.488.0",
-    "serverless-iam-roles-per-function": "^2.0.1"
+    "aws-sdk": "^2.488.0"
   }
 }
