@@ -4,16 +4,20 @@ const Progress = {
     <v-layout row>
         <v-flex xs12 sm8 offset-sm2>
             <v-progress-linear :indeterminate="!state.status"></v-progress-linear>
-            <v-alert :value="state.status" :type="alertType"> {{state.status}} </v-alert>
+            <v-alert :value="!!state.status" :type="alertType"> {{state.status}} </v-alert>
         </v-flex>
     </v-layout>
     `,
     props: {
         state: {
             type: Object,
-            default: {
-                status: null,
-                isError: false
+            // Object or array defaults must be returned from
+            // a factory function
+            default() {
+                return {
+                    status: null,
+                    isError: false
+                };
             }
         }
     },
