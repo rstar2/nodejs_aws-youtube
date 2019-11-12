@@ -11,7 +11,8 @@ module.exports = (videoId, transcodeMP3 = false) => {
 
     return ytdl.getInfo(videoId)
         // Choose the best format and construct the Lambda event.
-        .then(({ formats, title }) => {
+        .then(data => {
+            const { formats, title } = data;
             let format;
             if (transcodeMP3) {
                 // We'll just pick the largest audio source file size for simplicity here,
