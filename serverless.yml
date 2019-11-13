@@ -7,7 +7,7 @@ provider:
   name: aws
   profile: serverless-cli
 
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   # timeout: 10 # global timeout - optional, in seconds, default is 6
 
   stage: ${opt:stage, 'dev'}
