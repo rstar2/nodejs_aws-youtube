@@ -12,22 +12,24 @@ module.exports = (videoId, transcodeMP3 = false) => {
     return ytdl.getInfo(videoId)
         // Choose the best format and construct the Lambda event.
         .then(data => {
-            const { formats, title } = data;
+            const { formats, videoDetails } = data;
+            const { title } = videoDetails;
             let format;
             if (transcodeMP3) {
-                // We'll just pick the largest audio source file size for simplicity here,
-                // you could prioritize things based on bitrate, file format, etc. if you wanted to.
-                format = formats
-                    .filter(format => format.audioEncoding !== null)
-                    .filter(format => format.clen !== null)
-                    .sort((a, b) => parseInt(b.clen, 10) - parseInt(a.clen, 10))[0];
+                //  just pick the highest quality audio
+                format = ytdl.chooseFormat(formats, {quality: 'highestaudio'});
+                // could prioritize things based on bitrate, file format if needed
+                // format = formats
+                //     .filter(format => !!format.audioCodec && !!format.audioBitrate)
+                //     .sort((a, b) => parseInt(b.audioBitrate, 10) - parseInt(a.audioBitrate, 10))
+                //     [0];
             } else {
                 format = ytdl.chooseFormat(formats.filter(format => format.container === 'mp4'),
                     { quality: 'highest' });
             }
 
             return {
-                filename: `${title}.${transcodeMP3 ? format.audioEncoding : 'mp4'}`,
+                filename: `${title}.${transcodeMP3 ? format.audioCodec : 'mp4'}`,
                 key: `${timestamp} - ${title}`,
                 url: format.url,
             };

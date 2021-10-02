@@ -108,3 +108,7 @@ javascript:window.open(`{{aws-lambda-http-gateway}}/{{stage}}/view/download/${en
 E.g. like existing AWS profile in ~/.aws/credentials
 
 ## Building FFMPEG in Docker container
+
+Run aws-build-and-deploy.sh and it will do everything
+
+In 2021+ probably there's already a Lambda Layer with ffmpeg inside which would be easier approach, but I have't bothered to do it that way. 
