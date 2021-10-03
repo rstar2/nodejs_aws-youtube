@@ -7,7 +7,9 @@ provider:
   name: aws
   profile: serverless-cli
 
-  runtime: nodejs10.x
+  lambdaHashingVersion: 20201221
+
+  runtime: nodejs14.x
   # timeout: 10 # global timeout - optional, in seconds, default is 6
 
   stage: ${opt:stage, 'dev'}
@@ -34,12 +36,16 @@ provider:
     AWS_S3_BUCKET: ${self:service}-${self:provider.stage}
 
 package:
-  # if 'artifact' is specified include/exclude will be ignored - this allows for manual zipping
+  # if 'artifact' is specified patterns will be ignored - this allows for manual zipping
   artifact: aws-artifact.zip
-  include:
-    - src/**
-    - node_modules/**
-    - exodus/**
+  patterns:
+    - '!ffmpeg/**'
+    - '!aws-artifact.zip'
+    - '!aws-build-and-deploy.sh'
+    - '!README.md'
+    - '!.vscode'
+    - '!.eslintrc'
+    - '!package-lock.json'
     
 
 functions:
@@ -62,10 +68,14 @@ functions:
     timeout: 30
     events:
       # all routes get proxied to the Express router
-      - http: ANY /
-        cors: true
-      - http: 'ANY {proxy+}'
-        cors: true
+      - http: 
+          path: /
+          method: ANY
+          cors: true
+      - http: 
+          path: '/{any+}'
+          method: ANY
+          cors: true
 
     # Using the 'serverless-iam-roles-per-function' plugin we can
     # easily define IAM roles per function

@@ -52,6 +52,8 @@ exports.handler = (event, context, callback) => {
     const youtubeFilename = tempy.file();
     const resultFilename = transcodeMP3 ? tempy.file({ extension: 'mp3' }) : youtubeFilename;
 
+    console.log('Download file:', filename, ' on url:', url);
+
     // Download the source file.
     downloadFile(url, youtubeFilename)
         // Perform the actual transcoding.
@@ -64,7 +66,7 @@ exports.handler = (event, context, callback) => {
             return s3.putObject({
                 Key: fileKey,
                 Body: fs.createReadStream(resultFilename),
-                ContentType: 'audio/mpeg',
+                ContentType: transcodeMP3 ? 'audio/mpeg' : 'video/mp4',
                 ContentDisposition: `attachment; filename="${sanitizeFilename(filename + (transcodeMP3 ? '.mp3' : ''))}"`,
             }).promise()
                 .then(() => {
