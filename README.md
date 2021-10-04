@@ -111,4 +111,4 @@ E.g. like existing AWS profile in ~/.aws/credentials
 
 Run aws-build-and-deploy.sh and it will do everything
 
-In 2021+ probably there's already a Lambda Layer with ffmpeg inside which would be easier approach, but I have't bothered to do it that way. 
+In 2021+ there's already a Lambda Layer with ffmpeg inside which would be easier approach - https://github.com/serverlesspub/ffmpeg-aws-lambda-layer. Will be much simpler with it, but still exodus ways is a very general solution for other similar cases.
